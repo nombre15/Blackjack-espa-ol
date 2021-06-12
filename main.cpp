@@ -8,6 +8,8 @@ using namespace std;
 
 int main()
 {
+
+    SetConsoleTitle("Blackjack");
     int suma = 0;
     int tecla;
     int dinero;
@@ -28,7 +30,7 @@ int main()
     //definiendo resultados
     if(suma == 21) {
 
-        _cputs("Ganaste!! \n\nPresiona E para volver a jugar o X para salir\n");
+        _cputs("Ganaste!! \n\nzPresiona E para volver a jugar o X para salir\n\n");
 
         tecla = getch();
 
@@ -46,7 +48,8 @@ int main()
 
      if(suma > 21){
 
-        _cputs("Perdiste!\n\nPresiona E para volver a jugar o X para salir\n");
+        suma = 0;
+        _cputs("Te pasaste de 21, perdiste!\n\nPresiona E para volver a jugar o X para salir\n\n");
 
         tecla = getch();
 
@@ -71,7 +74,7 @@ int main()
 
        suma = suma + 10;
 
-       cout << "\nTienes " << suma << endl;
+       cout << "\nTienes " << suma << " puntos" << endl;
        _cputs("\nPresiona E para seguir o X para salir\n\n");
 
         tecla = getch();
@@ -97,7 +100,7 @@ int main()
      else{
 
      cout << numero << simbolo[random] << endl;
-     cout << "Tienes " << suma << endl;
+     cout << "Tienes " << suma << " puntos" << endl;
      _cputs("\nPresiona E para seguir o X para salir\n\n");
 
         tecla = getch();
