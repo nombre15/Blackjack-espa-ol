@@ -1,1 +1,1 @@
-# Blackjack-espa-ol
+# Blackjack-espaniol
