@@ -10,13 +10,16 @@ int main()
 {
 
     SetConsoleTitle("Blackjack");
+
+    repetir:
     int suma = 0;
+    int dealerSuma = 0;
     int tecla;
     int dinero;
     string letra[4] {"A", "J", "Q", "K"};
     string simbolo[4] {" de diamantes", " de corazones", " de trebol", " de picas"};
 
-    cout << "Escribe la cantidad de dinero que vas a apostar"  << endl;
+    cout << "Escribe la cantidad de dinero que usaras"  << endl;
     cin >> dinero;
     cout << "\n";
 
@@ -24,24 +27,29 @@ int main()
 
     srand(time(0));
     int numero = rand() % 11;
+    int dealerNumero = rand() % 11;
     int random = rand() % 4;
+    int dealerRandom = rand() % 4;
     suma = suma + numero;
+    dealerSuma = dealerSuma + dealerNumero;
 
-    //definiendo resultados
+    //resultados
     if(suma == 21) {
 
-        _cputs("Ganaste!! \n\nzPresiona E para volver a jugar o X para salir\n\n");
+
+        _cputs("21 puntos,  Ganador!! \n\nPresiona E para jugar otra vez o X para salir\n\n");
 
         tecla = getch();
 
         if(tecla == 'e'){
 
-            goto blackjack;
+            cout << "Tienes "  << dinero << "$\n" << endl;
+            goto repetir;
         }
 
         else if(tecla == 'x'){
 
-            cout << "Ahora tienes "  << dinero << "$" << endl;
+            cout << "Tienes "  << dinero << "$" << endl;
             return 0;
         }
      }
@@ -49,59 +57,112 @@ int main()
      if(suma > 21){
 
         suma = 0;
-        _cputs("Te pasaste de 21, perdiste!\n\nPresiona E para volver a jugar o X para salir\n\n");
+        dinero = 0;
+        _cputs("Tienes mas de 21 puntos, perdedor!\n\nPresiona E para jugar otra vez o X para salir\n\n");
 
         tecla = getch();
 
         if(tecla == 'e'){
 
-            goto blackjack;
+        cout << "Ahora tienes " << dinero << "$\n" << endl;
+            goto repetir;
         }
 
         else if(tecla == 'x'){
 
             dinero = 0;
-            cout << "\nPerdiste todo! \nAhora tienes " << dinero << "$" << endl;
+            cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
             return 0;
         }
      }
 
-    //si sale cero se aprovecha para usar las letras
-    if(numero == 0){
+     if(dealerSuma == 21) {
 
-      cout << letra[random];
-      cout << simbolo[random];
-
-       suma = suma + 10;
-
-       cout << "\nTienes " << suma << " puntos" << endl;
-       _cputs("\nPresiona E para seguir o X para salir\n\n");
+        dinero = 0;
+        cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
+        _cputs("El dealer tiene 21 puntos, el dealer gana!\nPresiona E para jugar otra vez o X para salir\n\n");
 
         tecla = getch();
 
         if(tecla == 'e'){
 
-            goto blackjack;
+        cout << "Ahora tienes " << dinero << "$\n" << endl;
+            goto repetir;
         }
 
-        if(tecla == 'x'){
+        else if(tecla == 'x'){
 
-            cout << "Ahora tienes " << dinero << "$" << endl;
+            cout << "Tienes "  << dinero << "$" << endl;
+            return 0;
         }
+     }
+
+     if(dealerSuma > 21){
+
+        suma = 0;
+        dinero = 0;
+        _cputs("Ganador!, el dealer tiene mas de 21 puntos\n\nPresiona E para jugar otra vez o X para salir\n\n");
+
+        tecla = getch();
+
+        if(tecla == 'e'){
+
+        cout << "Ahora tienes " << dinero << "$\n" << endl;
+            goto repetir;
+        }
+
+        else if(tecla == 'x'){
+
+            dinero = 0;
+            cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
+            return 0;
+        }
+     }
+
+    //Cero para usar letras
+    if(numero == 0){
+
+      cout << "Tu: " << letra[random] << simbolo[random];
+
+       suma = suma + 10;
+
+       cout << " -" << suma << " puntos";
     }
 
-    //si sale uno vuelve a tirar de nuevo
-    else if (numero == 1) {
+    //1 para tirar otra vez
+    if (numero == 1) {
 
        goto blackjack;
      }
 
-     //si sale normal
-     else{
+    if (dealerNumero == 1) {
 
-     cout << numero << simbolo[random] << endl;
-     cout << "Tienes " << suma << " puntos" << endl;
-     _cputs("\nPresiona E para seguir o X para salir\n\n");
+       goto blackjack;
+     }
+
+     //numeros normales
+     if(1 < numero && numero <= 10){
+
+     cout << "Tu: "<<numero << simbolo[random];
+     cout << " - " << suma << " puntos";
+     }
+
+     if(1 < dealerNumero && dealerNumero <= 10){
+
+     cout << "\nDealer: "<< dealerNumero << simbolo[random];
+     cout << " - " << dealerSuma << " puntos";
+     }
+
+     if(dealerNumero == 0){
+
+      cout << "\nDealer: " << letra[dealerRandom] << simbolo[dealerRandom];
+
+       dealerSuma = dealerSuma + 10;
+
+       cout << " - " << dealerSuma << " puntos" << endl;
+     }
+
+       _cputs("\nPresiona E para jugar otra vez o X para salir\n\n");
 
         tecla = getch();
 
@@ -116,4 +177,3 @@ int main()
             cout << "Ahora tienes " << dinero << "$" << endl;
         }
     }
-}
