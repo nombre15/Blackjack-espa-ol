@@ -1,179 +1,236 @@
 #include <iostream>
 #include <time.h>
-#include <string>
-#include <windows.h>
 #include <conio.h>
-#include <ctype.h>
 using namespace std;
 
-int main()
-{
+void jugadorGana(int& dinero, int& suma);
+void jugadorPierde(int& dinero, int& suma);
 
-    SetConsoleTitle("Blackjack");
+int main(){
 
     repetir:
-    int suma = 0;
-    int dealerSuma = 0;
-    int tecla;
-    int dinero;
-    string letra[4] {"A", "J", "Q", "K"};
-    string simbolo[4] {" de diamantes", " de corazones", " de trebol", " de picas"};
 
-    cout << "Escribe la cantidad de dinero que usaras"  << endl;
-    cin >> dinero;
-    cout << "\n";
+        int suma = 0;
+        int dealerSuma = 0;
+        int dinero = 0;
+        bool check;
+            
+        int tecla;
+        string letra[4] {"A", "J", "Q", "K"};
+        string simbolo[4] {" de diamantes", " de corazones", " de trebol", " de picas"};
 
-    blackjack:
+        cout << "Escribe la cantidad de dinero que usaras"  << endl;
+        cin >> dinero;
 
-    srand(time(0));
-    int numero = rand() % 11;
-    int dealerNumero = rand() % 11;
-    int random = rand() % 4;
-    int dealerRandom = rand() % 4;
-    suma = suma + numero;
-    dealerSuma = dealerSuma + dealerNumero;
+        while(cin.fail()) {
 
-    //resultados
-    if(suma == 21) {
-
-
-        _cputs("21 puntos,  Ganador!! \n\nPresiona E para jugar otra vez o X para salir\n\n");
-
-        tecla = getch();
-
-        if(tecla == 'e'){
-
-            cout << "Tienes "  << dinero << "$\n" << endl;
-            goto repetir;
+            cout << "Ingrese un numero adecuado" << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> dinero;
         }
 
-        else if(tecla == 'x'){
+        cout << "\n"; 
 
-            cout << "Tienes "  << dinero << "$" << endl;
-            return 0;
-        }
-     }
+        blackjack: 
 
-     if(suma > 21){
+            srand(time(0));
+            int numero = rand() % 11;
+            int dealerNumero = rand() % 11;
+            int randomJ = rand() % 4;
+            int randomD = rand() % 4;
+            suma = suma + numero;
+            dealerSuma = dealerSuma + dealerNumero;
 
-        suma = 0;
-        dinero = 0;
-        _cputs("Tienes mas de 21 puntos, perdedor!\n\nPresiona E para jugar otra vez o X para salir\n\n");
+            //Cero y 1 para usar letras
+            if(numero == 0 || numero == 1){
 
-        tecla = getch();
+                suma = suma + 10;
+                cout << "Tu: " << letra[randomJ] << simbolo[randomJ] << " -" << suma << " puntos";
+            }
 
-        if(tecla == 'e'){
+            //Numeros normales
+            if(1 < numero && numero <= 10){
 
-        cout << "Ahora tienes " << dinero << "$\n" << endl;
-            goto repetir;
-        }
+                cout << "Tu: "<<numero << simbolo[randomJ] << " - " << suma << " puntos";
+            }
 
-        else if(tecla == 'x'){
+            if(1 < dealerNumero && dealerNumero <= 10){
 
-            dinero = 0;
-            cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
-            return 0;
-        }
-     }
+                cout << "\nDealer: "<< dealerNumero << simbolo[randomD] << " - " << dealerSuma << " puntos";
+            }
 
-     if(dealerSuma == 21) {
+            if(dealerNumero == 0 || dealerNumero == 1){
 
-        dinero = 0;
-        cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
-        _cputs("El dealer tiene 21 puntos, el dealer gana!\nPresiona E para jugar otra vez o X para salir\n\n");
+                dealerSuma = dealerSuma + 10;
+                cout << "\nDealer: " << letra[randomD] << simbolo[randomD] << " - " << dealerSuma << " puntos";
+            }
+            
+                            ////////RESULTADOS////////
+            //21 puntos JUGADOR
+            if(suma == 21) {
 
-        tecla = getch();
+                cout << "\n\n21 puntos,  Ganador!!";
+                jugadorGana(dinero,suma);
+                _cputs("\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                tecla = getch();
 
-        if(tecla == 'e'){
 
-        cout << "Ahora tienes " << dinero << "$\n" << endl;
-            goto repetir;
-        }
+                do{
 
-        else if(tecla == 'x'){
+                    if(tecla == 'e'){
+                        goto repetir; 
+                    }
 
-            cout << "Tienes "  << dinero << "$" << endl;
-            return 0;
-        }
-     }
+                    else if(tecla == 'x'){
 
-     if(dealerSuma > 21){
+                        cout << "\n\nTe vas con " << dinero << "$";
+                        return 0;
+                    }
 
-        suma = 0;
-        dinero = 0;
-        _cputs("Ganador!, el dealer tiene mas de 21 puntos\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                    else{
 
-        tecla = getch();
+                        _cputs("\nPorfavor presiona una tecla valida\n\n");
+                        tecla = getch();
+                    }                   
+                }while(tecla != 'e' || tecla != 'x');
+            }
 
-        if(tecla == 'e'){
+            //Mas de 21 puntos JUGADOR
+            else if(suma > 21){
 
-        cout << "Ahora tienes " << dinero << "$\n" << endl;
-            goto repetir;
-        }
+                _cputs("\n\nTienes mas de 21 puntos, perdedor!");
+                jugadorPierde(dinero,suma);
+                _cputs("\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                tecla = getch();
 
-        else if(tecla == 'x'){
+                do{
 
-            dinero = 0;
-            cout << "\nPierdes todo! \nAhora tienes " << dinero << "$" << endl;
-            return 0;
-        }
-     }
+                    if(tecla == 'e'){
+                        goto repetir; 
+                    }
 
-    //Cero para usar letras
-    if(numero == 0){
+                    else if(tecla == 'x'){
 
-      cout << "Tu: " << letra[random] << simbolo[random];
+                        cout << "\n\nQuedaste sin dinero :(";
+                        return 0;
+                    }
 
-       suma = suma + 10;
+                    else{
 
-       cout << " -" << suma << " puntos";
-    }
+                        _cputs("Porfavor presiona una tecla valida\n\n");
+                        tecla = getch();
+                    }                   
+                }while(tecla != 'e' || tecla != 'x');
+            }
 
-    //1 para tirar otra vez
-    if (numero == 1) {
+            //21 puntos DEALER
+            else if(dealerSuma == 21) {
 
-       goto blackjack;
-     }
+                _cputs("\n\nEl dealer tiene 21 puntos, el dealer gana!");
+                jugadorPierde(dinero, suma);
+                _cputs("\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                tecla = getch();
 
-    if (dealerNumero == 1) {
+                do{
 
-       goto blackjack;
-     }
+                    if(tecla == 'e'){
+                        goto repetir; 
+                    }
 
-     //numeros normales
-     if(1 < numero && numero <= 10){
+                    else if(tecla == 'x'){
 
-     cout << "Tu: "<<numero << simbolo[random];
-     cout << " - " << suma << " puntos";
-     }
+                        cout << "\n\nQuedaste sin dinero :(";
+                        return 0;
+                    }
 
-     if(1 < dealerNumero && dealerNumero <= 10){
+                    else{
 
-     cout << "\nDealer: "<< dealerNumero << simbolo[random];
-     cout << " - " << dealerSuma << " puntos";
-     }
+                        _cputs("\nPorfavor presiona una tecla valida\n\n");
+                        tecla = getch();
+                    }                   
+                }while(tecla != 'e' || tecla != 'x');
+            }
 
-     if(dealerNumero == 0){
+            //Mas de 21 puntos DEALER
+            else if(dealerSuma > 21){
 
-      cout << "\nDealer: " << letra[dealerRandom] << simbolo[dealerRandom];
+                _cputs("\n\nGanador!, el dealer tiene mas de 21 puntos");
+                jugadorGana(dinero,suma);
+                _cputs("\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                tecla = getch();
 
-       dealerSuma = dealerSuma + 10;
+                do{
 
-       cout << " - " << dealerSuma << " puntos" << endl;
-     }
+                    if(tecla == 'e'){                       
+                        goto repetir; 
+                    }
 
-       _cputs("\nPresiona E para jugar otra vez o X para salir\n\n");
+                    else if(tecla == 'x'){
 
-        tecla = getch();
+                        cout << "\n\nTe vas con " << dinero << "$";
+                        return 0;
+                    }
 
-        if(tecla == 'e'){
+                    else{
 
-            dinero = dinero + (dinero * 0.5);
-            goto blackjack;
-        }
+                        _cputs("\nPorfavor presiona una tecla valida\n\n");
+                        tecla = getch();
+                    }                   
+                }while(tecla != 'e' || tecla != 'x');
+            }         
 
-        if(tecla == 'x'){
+            else{
 
-            cout << "Ahora tienes " << dinero << "$" << endl;
-        }
-    }
+                _cputs("\n\nPresiona E para jugar otra vez o X para salir\n\n");
+                tecla = getch();
+
+                do{
+
+                    if(tecla == 'e'){
+                        goto blackjack;
+                    }     
+
+                    else if(tecla == 'x'){
+
+                        if(dealerSuma > suma){
+
+                            cout << "\nEl dealer tiene mas puntos, pierdes!" << endl;
+                            return 0;
+                        }
+
+                        else if(dealerSuma == suma){
+
+                            cout << "\nEmpate! no puedes abandonar" << endl;
+                            goto blackjack;
+                        }
+
+                        else{
+                            
+                            cout << "\nTe vas con " << dinero << "$";
+                            return 0;
+                        }
+                    }
+
+                    else{
+
+                        _cputs("Porfavor presiona una tecla valida\n\n");
+                        tecla = getch();
+                    }           
+                }while(tecla != 'e' || tecla != 'x');
+            }
+}   
+
+void jugadorGana(int& dinero, int& suma) {
+
+    dinero = dinero + (dinero * 0.5);
+    cout << "\nAhora tienes " << dinero << "$\n" << endl;
+    suma = 0;
+}
+
+void jugadorPierde(int& dinero, int& suma) {
+
+    cout << "\nPierdes todo!" << endl;
+    dinero = 0;
+    suma = 0;
+}
