@@ -12,7 +12,7 @@ int ingresarTecla(char tecla, int dinero);
 int main(){
 
 
-    char tecla = 'e';
+    char tecla;
     //Inicio del juego
     do{
 
@@ -22,7 +22,7 @@ int main(){
         int dinero = 0;
         string letra[4] {"A", "J", "Q", "K"};
         string simbolo[4] {" de diamantes", " de corazones", " de trebol", " de picas"};
-        bool finalizado;
+        bool finalizado = false;
         carta blackjack;
 
         cout << "Escribe la cantidad de dinero que usaras"  << endl;
@@ -52,13 +52,25 @@ int main(){
             else{
 
                 cout << "Tu saldo es de $" << dinero << endl;
-                cout << "Presiona E para jugar otra vez o X para salir\n\n";
+                cout << "\nPresiona E para jugar otra vez o X para salir\n\n";
 
                 tecla = getch();
                 ingresarTecla(tecla, dinero);
                 break;
             }
-            tecla = getch();
+
+            if(tecla == 'x'){
+
+                system("cls");
+                cout << "Te vas con $" << dinero << endl << endl;
+                return 0;
+            }
+
+            while(tecla != 'e'){
+
+                cout << "\n\nPorfavor presiona una tecla valida\n\n";
+                tecla = getch();
+            }
         }while(tecla == 'e');
     }while(tecla == 'e');
 }
@@ -83,7 +95,8 @@ int ingresarTecla(char tecla, int dinero){
 
         if(tecla == 'x'){
 
-            cout << "\n\nTe vas con " << dinero << "$";
+            system("cls");
+            cout << "Te vas con $" << dinero << "\n";
             return 0;
         }
 
