@@ -9,6 +9,7 @@ carta::Carta() {
 
 void carta::tomarCartas(int& suma, int& dealerSuma) {
 
+    srand(time(0));
     int numero = rand() % 11;
     int dealerNumero = rand() % 11;
     int randomJ = rand() % 4;
@@ -53,8 +54,9 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
 
         cout << "\n\n21 puntos,  Ganador!!";
         jugadorGana(dinero, suma);
+        cout << "\nPresiona E para continuar o X para salir";
+        tecla = getch();
         finalizado = true;
-        cout << "\n\nPresiona cualquier tecla para continuar...";
     }
 
     // Mas de 21 puntos JUGADOR
@@ -62,8 +64,9 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
 
         cout << "\n\nTienes mas de 21 puntos, perdedor!";
         jugadorPierde(dinero, suma);
+        cout << "\nPresiona E para continuar o X para salir";
+        tecla = getch();
         finalizado = true;
-        cout << "\n\nPresiona cualquier tecla para continuar...";
     }
 
     // 21 puntos DEALER
@@ -71,8 +74,9 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
 
         cout << "\n\nEl dealer tiene 21 puntos, el dealer gana!";
         jugadorPierde(dinero, suma);
+        cout << "\nPresiona E para continuar o X para salir";
+        tecla = getch();
         finalizado = true;
-        cout << "\n\nPresiona cualquier tecla para continuar...";
     }
 
     // Mas de 21 puntos DEALER
@@ -80,8 +84,9 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
 
         cout << "\n\nGanador!, el dealer tiene mas de 21 puntos";
         jugadorGana(dinero, suma);
+        cout << "\nPresiona E para continuar o X para salir";
+        tecla = getch();
         finalizado = true;
-        cout << "\n\nPresiona cualquier tecla para continuar...";
     }
 
     // Fin del juego
@@ -94,7 +99,9 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
             if (tecla == 'x') {
                 if (dealerSuma > suma) {
 
-                    cout << "\nEl dealer tiene mas puntos, pierdes!" << endl;
+                    cout << "\nEl dealer tiene mas puntos";
+                    jugadorPierde(dinero, suma);
+                    cout << "Te vas con " << dinero << "$\n";
                     return;
                 }
                 else if (dealerSuma == suma) {
@@ -104,17 +111,14 @@ void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecl
                 }
                 else {
 
-                    cout << "\nTe vas con " << dinero << "$";
+                    cout << "\nTienes mas puntos que el dealer, ganaste!" << endl;
+                    jugadorGana(dinero, suma);
                     return;
                 }
             }
-            else if (tecla == 'e') {
-
-                break;
-
-            }
             else {
                     cout << "Porfavor presiona una tecla valida\n\n";
+                    tecla = getch();
             }
         }
     }
