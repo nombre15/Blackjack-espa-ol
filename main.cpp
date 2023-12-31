@@ -20,8 +20,6 @@ int main(){
         int suma = 0;
         int dealerSuma = 0;
         int dinero = 0;
-        string letra[4] {"A", "J", "Q", "K"};
-        string simbolo[4] {" de diamantes", " de corazones", " de trebol", " de picas"};
         bool finalizado = false;
         carta blackjack;
 
