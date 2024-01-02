@@ -115,7 +115,7 @@ int ingresarTecla(char tecla, int dinero){
 
         else{
 
-        cout << "\nPorfavor presiona una tecla valida\n\n";
+            cout << "\nPorfavor presiona una tecla valida\n\n";
             tecla = getch();
         }
     }
