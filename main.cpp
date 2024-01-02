@@ -2,22 +2,24 @@
 #include <time.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "carta.h"
 using namespace std;
 
-void jugadorGana(int& dinero, int& suma);
-void jugadorPierde(int& dinero, int& suma);
+void jugadorGana(int& dinero);
+void jugadorPierde(int& dinero);
 int ingresarTecla(char tecla, int dinero);
 
 int main(){
 
-
     char tecla;
+    SetConsoleTitle("Blackjack");
+
     //Inicio del juego
     do{
 
         system("cls");
-        int suma = 0;
+        int jugadorSuma = 0;
         int dealerSuma = 0;
         int dinero = 0;
         bool finalizado = false;
@@ -41,12 +43,14 @@ int main(){
 
             system("cls");
 
+            // Si aun no ha finalizado, jugar una ronda
             if(!finalizado){
 
-                blackjack.tomarCartas(suma, dealerSuma);
-                blackjack.mostrarResultado(suma, dealerSuma, dinero, tecla, finalizado);
+                blackjack.tomarCartas(jugadorSuma, dealerSuma);
+                blackjack.mostrarResultado(jugadorSuma, dealerSuma, dinero, tecla, finalizado);
             }
 
+            // Si el juego ha finalizado
             else{
 
                 cout << "Tu saldo es de $" << dinero << endl;
@@ -73,20 +77,31 @@ int main(){
     }while(tecla == 'e');
 }
 
-void jugadorGana(int& dinero, int& suma) {
+/** El jugador ha ganado el juego
+ *
+ * @param dinero Cantidad de dinero que sera aumentada
+*/
+void jugadorGana(int& dinero) {
 
     dinero = dinero + (dinero * 0.5);
     cout << "\nAhora tienes " << dinero << "$\n" << endl;
-    suma = 0;
 }
 
-void jugadorPierde(int& dinero, int& suma) {
+/** El jugador ha perdido el juego
+ *
+ * @param dinero Cantidad de dinero que sera cambiada a 0
+*/
+void jugadorPierde(int& dinero) {
 
     cout << "\nPierdes todo!" << endl;
     dinero = 0;
-    suma = 0;
 }
 
+/** Funcion para ingresar una tecla
+ *
+ * @param tecla Valor de tecla que fue ingresado
+ * @param dinero Cantidad de dinero que sera mostrada si se abandona el juego
+*/
 int ingresarTecla(char tecla, int dinero){
 
     while(tecla != 'e'){
@@ -104,4 +119,6 @@ int ingresarTecla(char tecla, int dinero){
             tecla = getch();
         }
     }
+
+    // No hay return intencionalmente, puesto que la funcion jamas deberia llegar hasta aqui y no hay nada para retornar
 }
