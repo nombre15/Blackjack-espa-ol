@@ -8,7 +8,7 @@ class carta
     public:
         Carta();
         void tomarCartas(int& jugadorSuma, int& dealerSuma);
-        void mostrarResultado(int jugadorSuma, int dealerSuma, int dinero, char& tecla, bool &finalizado);
+        void mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char& tecla, bool &finalizado);
 
     private:
         string letra[4] {"A", "J", "Q", "K"};
