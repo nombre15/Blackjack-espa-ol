@@ -1,126 +1,124 @@
-#include "carta.h"
+#include <iostream>
 #include <time.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <windows.h>
+#include "carta.h"
+using namespace std;
 
-carta::Carta() {
-    srand(time(0));
+void jugadorGana(int& dinero);
+void jugadorPierde(int& dinero);
+int ingresarTecla(char tecla, int dinero);
+
+int main(){
+
+    char tecla;
+    SetConsoleTitle("Blackjack");
+
+    //Inicio del juego
+    do{
+
+        system("cls");
+        int jugadorSuma = 0;
+        int dealerSuma = 0;
+        int dinero = 0;
+        bool finalizado = false;
+        carta blackjack;
+
+        cout << "Escribe la cantidad de dinero que usaras"  << endl;
+        cin >> dinero;
+
+        while(cin.fail()) {
+
+            cout << "Ingrese un numero adecuado" << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> dinero;
+        }
+
+        cout << "\n";
+
+        //Tomar cartas
+        do{
+
+            system("cls");
+
+            // Si aun no ha finalizado, jugar una ronda
+            if(!finalizado){
+
+                blackjack.tomarCartas(jugadorSuma, dealerSuma);
+                blackjack.mostrarResultado(jugadorSuma, dealerSuma, dinero, tecla, finalizado);
+            }
+
+            // Si el juego ha finalizado
+            else{
+
+                cout << "Tu saldo es de $" << dinero << endl;
+                cout << "\nPresiona E para jugar otra vez o X para salir\n\n";
+
+                tecla = getch();
+                ingresarTecla(tecla, dinero);
+                break;
+            }
+
+            if(tecla == 'x'){
+
+                system("cls");
+                cout << "Te vas con $" << dinero << endl << endl;
+                return 0;
+            }
+
+            while(tecla != 'e'){
+
+                cout << "\n\nPorfavor presiona una tecla valida\n\n";
+                tecla = getch();
+            }
+        }while(tecla == 'e');
+    }while(tecla == 'e');
 }
 
-void carta::tomarCartas(int& suma, int& dealerSuma) {
+/** El jugador ha ganado el juego
+ *
+ * @param dinero Cantidad de dinero que sera aumentada
+*/
+void jugadorGana(int& dinero) {
 
-    srand(time(0));
-    int numero = rand() % 11;
-    int dealerNumero = rand() % 11;
-    int randomJ = rand() % 4;
-    int randomD = rand() % 4;
-
-    suma = suma + numero;
-    dealerSuma = dealerSuma + dealerNumero;
-
-    //////CARTAS///////////
-    // 0 y 1 para usar letras
-    if (numero == 0 || numero == 1) {
-
-        suma = suma + 10;
-        cout << "Tu: " << letra[randomJ] << simbolo[randomJ] << " - " << suma << " puntos";
-    }
-
-    // Numeros normales
-    if (1 < numero && numero <= 10) {
-
-        cout << "Tu: " << numero << simbolo[randomJ] << " - " << suma << " puntos";
-    }
-
-    // Numeros normales
-    if (1 < dealerNumero && dealerNumero <= 10) {
-
-        cout << "\nDealer: " << dealerNumero << simbolo[randomD] << " - " << dealerSuma << " puntos";
-    }
-
-    // 0 y 1 para usar letras
-    if (dealerNumero == 0 || dealerNumero == 1) {
-
-        dealerSuma = dealerSuma + 10;
-        cout << "\nDealer: " << letra[randomD] << simbolo[randomD] << " - " << dealerSuma << " puntos";
-    }
+    dinero = dinero + (dinero * 0.5);
+    cout << "\nAhora tienes " << dinero << "$\n" << endl;
 }
 
-void carta::mostrarResultado(int& suma, int& dealerSuma, int& dinero, char& tecla, bool& finalizado) {
+/** El jugador ha perdido el juego
+ *
+ * @param dinero Cantidad de dinero que sera cambiada a 0
+*/
+void jugadorPierde(int& dinero) {
 
-    ////////RESULTADOS////////
-    // 21 puntos JUGADOR
-    if (suma == 21) {
+    cout << "\nPierdes todo!" << endl;
+    dinero = 0;
+}
 
-        cout << "\n\n21 puntos,  Ganador!!";
-        jugadorGana(dinero, suma);
-        cout << "\nPresiona E para continuar o X para salir";
-        tecla = getch();
-        finalizado = true;
-    }
+/** Funcion para ingresar una tecla
+ *
+ * @param tecla Valor de tecla que fue ingresado
+ * @param dinero Cantidad de dinero que sera mostrada si se abandona el juego
+*/
+int ingresarTecla(char tecla, int dinero){
 
-    // Mas de 21 puntos JUGADOR
-    else if (suma > 21) {
+    while(tecla != 'e'){
 
-        cout << "\n\nTienes mas de 21 puntos, perdedor!";
-        jugadorPierde(dinero, suma);
-        cout << "\nPresiona E para continuar o X para salir";
-        tecla = getch();
-        finalizado = true;
-    }
+        if(tecla == 'x'){
 
-    // 21 puntos DEALER
-    else if (dealerSuma == 21) {
+            system("cls");
+            cout << "Te vas con $" << dinero << "\n";
+            return 0;
+        }
 
-        cout << "\n\nEl dealer tiene 21 puntos, el dealer gana!";
-        jugadorPierde(dinero, suma);
-        cout << "\nPresiona E para continuar o X para salir";
-        tecla = getch();
-        finalizado = true;
-    }
+        else{
 
-    // Mas de 21 puntos DEALER
-    else if (dealerSuma > 21) {
-
-        cout << "\n\nGanador!, el dealer tiene mas de 21 puntos";
-        jugadorGana(dinero, suma);
-        cout << "\nPresiona E para continuar o X para salir";
-        tecla = getch();
-        finalizado = true;
-    }
-
-    // Fin del juego
-    else {
-
-        cout << "\n\nPresiona E para jugar otra vez o X para salir\n\n";
-        tecla = getch();
-
-        while(tecla != 'e'){
-            if (tecla == 'x') {
-                if (dealerSuma > suma) {
-
-                    cout << "\nEl dealer tiene mas puntos";
-                    jugadorPierde(dinero, suma);
-                    cout << "Te vas con " << dinero << "$\n";
-                    return;
-                }
-                else if (dealerSuma == suma) {
-
-                    cout << "\nEmpate! no puedes abandonar" << endl << "Presiona E para seguir jugando" << endl;
-                    tecla = getch();
-                }
-                else {
-
-                    cout << "\nTienes mas puntos que el dealer, ganaste!" << endl;
-                    jugadorGana(dinero, suma);
-                    return;
-                }
-            }
-            else {
-                    cout << "Porfavor presiona una tecla valida\n\n";
-                    tecla = getch();
-            }
+        cout << "\nPorfavor presiona una tecla valida\n\n";
+            tecla = getch();
         }
     }
-}
 
+    // No hay return intencionalmente, puesto que la funcion jamas deberia llegar hasta aqui y no hay nada para retornar
+}
