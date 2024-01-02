@@ -68,7 +68,7 @@ void carta::tomarCartas(int& jugadorSuma, int& dealerSuma) {
  * @param finalizado Bool usado para saber si el juego ha finalizado.
 */
 
-void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int dinero, char& tecla, bool& finalizado) {
+void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char& tecla, bool& finalizado) {
 
     ////////RESULTADOS////////
 
@@ -145,7 +145,4 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int dinero, char& 
             }
         }
     }
-}
-
-    // No hay return intencionalmente, puesto que la funcion jamas deberia llegar hasta aqui y no hay nada para retornar
 }
