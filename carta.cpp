@@ -1,16 +1,17 @@
 #include "carta.h"
+#include "players.h"
 #include <time.h>
 #include <conio.h>
-#include <stdlib.h>
 
-carta::Carta() {
+carta::carta() {
+
 }
 
 /**
- * @brief Funcion para tomar una carta en un turno del juego.
+ * @brief Funcion para tomar una carta en un turno
  *
- * Genera numeros al azar para representar el numero, letra y simbolo de cada una de las cartas.
- * Una carta para el jugador y otra para el dealer.
+ * Esta funcion genera numeros al azar para simular la toma de una carta con su respectivo color y numero o simbolo
+ * La funcion genera una carta para el jugador y otra para el dealer.
  *
  * @param jugadorSuma Puntos totales del jugador basados en las cartas que ha tomado, se actualiza cada vez que se llama a la funcion.
  * @param dealerSuma Puntos totales del dealer basados en las cartas que ha tomado, se actualiza cada vez que se llama a la funcion.
@@ -27,7 +28,7 @@ void carta::tomarCartas(int& jugadorSuma, int& dealerSuma) {
 
     // "letra[dealerSimbolo]" y "simbolo[jugadorSimbolo]" son diferentes para que no se repita siempre el mismo simbolo con la misma letra //
 
-    // si el numero es 0 o 1, la carta ser√° una carta con letra (A, Q, K, J)
+    // si el numero es 0 o 1, la carta ser· una carta con letra (A, Q, K, J)
     if (jugadorNumero == 0 || jugadorNumero == 1) {
 
         jugadorSuma = jugadorSuma + 10; // El valor de puntos de la letra es 10, se suma al total
@@ -41,7 +42,7 @@ void carta::tomarCartas(int& jugadorSuma, int& dealerSuma) {
         cout << "Tu: " << jugadorNumero << simbolo[jugadorSimbolo] << " - " << jugadorSuma << " puntos";
     }
 
-    // si el numero es 0 o 1, la carta ser√° una carta con letra (A, Q, K, J)
+    // si el numero es 0 o 1, la carta ser· una carta con letra (A, Q, K, J)
     if (dealerNumero == 0 || dealerNumero == 1) {
 
         dealerSuma = dealerSuma + 10; // El valor de puntos de la letra es 10, se suma al total
@@ -70,13 +71,15 @@ void carta::tomarCartas(int& jugadorSuma, int& dealerSuma) {
 
 void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char& tecla, bool& finalizado) {
 
+    players jugador;
+
     ////////RESULTADOS////////
 
     // 21 puntos JUGADOR
     if (jugadorSuma == 21) {
 
         cout << "\n\n21 puntos,  Ganador!!";
-        jugadorGana(dinero);
+        jugador.jugadorGana(dinero);
         cout << "\nPresiona E para continuar o X para salir";
         tecla = getch();
         finalizado = true;
@@ -86,7 +89,7 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
     else if (jugadorSuma > 21) {
 
         cout << "\n\nTienes mas de 21 puntos, perdedor!";
-        jugadorPierde(dinero);
+        jugador.jugadorPierde(dinero);
         cout << "\nPresiona E para continuar o X para salir";
         tecla = getch();
         finalizado = true;
@@ -96,7 +99,7 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
     else if (dealerSuma == 21) {
 
         cout << "\n\nEl dealer tiene 21 puntos, el dealer gana!";
-        jugadorPierde(dinero);
+        jugador.jugadorPierde(dinero);
         cout << "\nPresiona E para continuar o X para salir";
         tecla = getch();
         finalizado = true;
@@ -106,7 +109,7 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
     else if (dealerSuma > 21) {
 
         cout << "\n\nGanador!, el dealer tiene mas de 21 puntos";
-        jugadorGana(dinero);
+        jugador.jugadorGana(dinero);
         cout << "\nPresiona E para continuar o X para salir";
         tecla = getch();
         finalizado = true;
@@ -123,7 +126,7 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
                 if (dealerSuma > jugadorSuma) {
 
                     cout << "\nEl dealer tiene mas puntos";
-                    jugadorPierde(dinero);
+                    jugador.jugadorPierde(dinero);
                     cout << "Te vas con " << dinero << "$\n";
                     return;
                 }
@@ -135,7 +138,7 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
                 else {
 
                     cout << "\nTienes mas puntos que el dealer, ganaste!" << endl;
-                    jugadorGana(dinero);
+                    jugador.jugadorGana(dinero);
                     return;
                 }
             }
@@ -146,3 +149,4 @@ void carta::mostrarResultado(int jugadorSuma, int dealerSuma, int &dinero, char&
         }
     }
 }
+
