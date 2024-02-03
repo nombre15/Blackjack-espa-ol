@@ -25,7 +25,7 @@ int players::jugar(){
         cout << "Escribe la cantidad de dinero que usaras"  << endl;
         cin >> dinero;
 
-        while(cin.fail()) {
+        while(cin.fail() || dinero <= 0) {
 
             cout << "Ingrese un numero adecuado" << endl;
             cin.clear();
