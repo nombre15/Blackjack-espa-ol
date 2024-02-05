@@ -5,6 +5,7 @@ class players
         int jugar();
         void jugadorGana(int& dinero);
         void jugadorPierde(int& dinero);
+        void validarDinero(int& dinero);
         int ingresarTecla(char tecla, int dinero);
 
     private:
