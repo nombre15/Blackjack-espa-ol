@@ -25,13 +25,7 @@ int players::jugar(){
         cout << "Escribe la cantidad de dinero que usaras"  << endl;
         cin >> dinero;
 
-        while(cin.fail() || cin.peek() != '\n' || dinero <= 0) {
-
-            cout << "Ingrese un numero adecuado" << endl;
-            cin.clear();
-            cin.ignore(256,'\n');
-            cin >> dinero;
-        }
+        validarDinero(dinero);
 
         cout << "\n";
 
@@ -84,6 +78,19 @@ void players::jugadorPierde(int& dinero) {
 
     cout << "\nPierdes todo!" << endl;
     dinero = 0;
+}
+
+void players::validarDinero(int& dinero){
+
+    while(cin.fail() || cin.peek() != '\n' || dinero <= 0) {
+
+        system("cls");
+            cout << "Ingrese una cantidad de dinero valida\n" << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "$";
+            cin >> dinero;
+    }
 }
 
 int players::ingresarTecla(char tecla, int dinero){
